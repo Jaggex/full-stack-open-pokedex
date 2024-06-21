@@ -20,6 +20,9 @@ module.exports = {
     'react', 'jest'
   ],
   'rules': {
+    'no-console': [
+      'off'
+    ],
     'indent': [
       'error',
       2
@@ -35,9 +38,6 @@ module.exports = {
     'semi': [
       'error',
       'never'
-    ],
-    'no-console': [
-      'off'
     ],
     'eqeqeq': 'error',
     'no-trailing-spaces': 'error',
