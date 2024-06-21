@@ -1,0 +1,8 @@
+I myself have worked in couple of projects with 4 people and I will choose C++ as the language of topic as I have some experience of all of these topics.
+For compiling we use batch files (.bat) that deletes the existing .exe and object files and invokes the compiler with necessary options for the compiler.
+And for compiling all the versions of that specific software the batch file. renames some files that are used in that versions compilation and after that version is ready it puts EV code signing for that file and moves on to next version. We haven't done any testing but we also use godbolt's compiler explorer to make sure the quality of the code is good.
+
+We have used Github Actions to setup all the pipelines and i havent really found a reason to switch or even seek any new solutions but apparently Travis CI supports alot of different languages and is easy to integrate with github and is easy to use. Also CircleCI is one that popped up in google and has good performance and is integrated with Docker.
+
+Our project has been so small that using Cloud based CI environments has been free but if the project would scale much bigger then obviously it would start costing money aswell and localized CI environment would remain free and also theres better security for codebases in localized environment.
+
