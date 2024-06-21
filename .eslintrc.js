@@ -21,8 +21,8 @@ module.exports = {
   'rules': {
     'indent': [
       'error',
-        2
-      ],
+      2
+    ],
     'linebreak-style': [
       'error',
       'unix'
@@ -34,6 +34,9 @@ module.exports = {
     'semi': [
       'error',
       'never'
+    ],
+    'no-console': [
+      'off'
     ],
     'eqeqeq': 'error',
     'no-trailing-spaces': 'error',
