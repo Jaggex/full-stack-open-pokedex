@@ -30,6 +30,18 @@ jobs:
 
       - name: test
         run: npm test
+  check_for_skip:
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check for
+        id: check_skip
+        run: |
+          SKIP=$(git log -1 --pretty=format:%B | grep -c '#skip')
+          echo "::set-output name=skip::$SKIP"
 
   deploy:
     if: github.ref == 'refs/heads/main'
