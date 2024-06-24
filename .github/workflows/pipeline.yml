@@ -5,22 +5,56 @@ on:
     branches:
       - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
     types: [opened, synchronize]
 
 jobs:
-  simple_deployment_pipeline:
+  build_and_test:
     runs-on: ubuntu-20.04
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Install dependencies
         run: npm install
+
       - name: lint
         run: npm run eslint
+
       - name: build
         run: npm run build
+
       - name: test
         run: npm test
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-20.04
+    needs: build_and_test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy and wait
+        uses: ashishkujoy/render-ci-deploy@v1.0.1
+        with:
+          service-id: ${{ secrets.SERVICE_ID }}
+          service-key: ${{ secrets.SERVICE_KEY }}
+          api-key: ${{ secrets.API_KEY }}
+          max-deployment-wait-ms: 360000
+          delay-in-ms: 10000
