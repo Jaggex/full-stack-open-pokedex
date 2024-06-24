@@ -13,25 +13,20 @@ jobs:
   build_and_test:
     runs-on: ubuntu-20.04
 
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-
       - name: Install dependencies
         run: npm install
-
 
       - name: lint
         run: npm run eslint
 
-
       - name: build
         run: npm run build
-
 
       - name: test
         run: npm test
@@ -56,9 +51,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to Render
-        uses: ttskch/render-deploy@v1.0.0
-        with:
-          api-key: ${{ secrets.API_KEY }}
-          service-id: ${{ secrets.SERVICE_ID }}
-
+      - name: Trigger deployment
+        run: |
+          curl -X POST "https://api.render.com/deploy/${{ secrets.SERVICE_ID }}?key=${{ secrets.SERVICE_KEY }}"
