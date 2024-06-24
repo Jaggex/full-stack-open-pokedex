@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, synchronize]
+    types: [opened, synchronize, closed]
 
 jobs:
   build_and_test:
@@ -54,3 +54,17 @@ jobs:
       - name: Trigger deployment
         run: |
           curl -X POST "https://api.render.com/deploy/${{ secrets.SERVICE_ID }}?key=${{ secrets.SERVICE_KEY }}"
+
+  bump_version_and_tag:
+    if: github.event.pull_request.merged == true && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.69.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
